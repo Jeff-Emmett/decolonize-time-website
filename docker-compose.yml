@@ -1,0 +1,15 @@
+services:
+  decolonize-time:
+    build: .
+    container_name: decolonize-time
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.decolonize-time.rule=Host(`decolonizeti.me`) || Host(`www.decolonizeti.me`)"
+      - "traefik.http.services.decolonize-time.loadbalancer.server.port=3000"
+    networks:
+      - traefik-public
+
+networks:
+  traefik-public:
+    external: true
