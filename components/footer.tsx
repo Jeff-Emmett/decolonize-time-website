@@ -17,7 +17,7 @@ export function Footer() {
           </div>
           <div className="pt-6 border-t border-border">
             <p className="text-xs text-muted-foreground">
-              {new Date().getFullYear()} • Time is not linear, it is cyclical and sacred
+              {new Date().getFullYear()} • Time is not linear, it is fractal and sacred
             </p>
           </div>
         </div>

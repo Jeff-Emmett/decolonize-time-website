@@ -1,7 +1,33 @@
+"use client"
+
 import { Card } from "@/components/ui/card"
 import { Sunrise, Wind, Leaf, Waves } from "lucide-react"
+import { useRef, useEffect } from "react"
 
 export function AlternativeTimekeeping() {
+  const methodRefs = useRef<(HTMLDivElement | null)[]>([])
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.classList.add("animate-fade-in")
+            }, index * 150)
+          }
+        })
+      },
+      { threshold: 0.1 },
+    )
+
+    methodRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref)
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
   const methods = [
     {
       icon: Sunrise,
@@ -51,9 +77,24 @@ export function AlternativeTimekeeping() {
   ]
 
   return (
-    <section id="alternatives" className="py-20 lg:py-32">
-      <div className="container px-4 lg:px-8">
-        <div className="max-w-3xl mx-auto text-center mb-16">
+    <section id="alternatives" className="py-20 lg:py-32 relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none opacity-5">
+        <svg className="w-full h-full" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+          <path
+            d="M0,500 Q250,400 500,500 T1000,500 L1000,1000 L0,1000 Z"
+            fill="currentColor"
+            className="text-primary"
+          />
+          <path
+            d="M0,600 Q250,500 500,600 T1000,600 L1000,1000 L0,1000 Z"
+            fill="currentColor"
+            className="text-accent"
+          />
+        </svg>
+      </div>
+
+      <div className="container px-4 lg:px-8 relative z-10">
+        <div className="max-w-3xl mx-auto text-center mb-16 warp-element">
           <h2 className="font-serif text-4xl lg:text-5xl font-bold mb-6 text-foreground">
             Natural Time-Keeping Methods
           </h2>
@@ -66,9 +107,13 @@ export function AlternativeTimekeeping() {
           {methods.map((method, index) => {
             const Icon = method.icon
             return (
-              <Card key={index} className="p-8">
+              <Card
+                key={index}
+                ref={(el) => (methodRefs.current[index] = el)}
+                className="p-8 opacity-0 warp-element hover:shadow-xl hover:shadow-primary/20 transition-all duration-300 border-primary/10"
+              >
                 <div className="flex items-start gap-4 mb-6">
-                  <div className="p-3 rounded-lg bg-primary/10 shrink-0">
+                  <div className="p-3 rounded-lg bg-gradient-to-br from-primary/10 to-accent/10 shrink-0">
                     <Icon className="h-7 w-7 text-primary" />
                   </div>
                   <div>
@@ -89,7 +134,7 @@ export function AlternativeTimekeeping() {
           })}
         </div>
 
-        <Card className="p-8 lg:p-12 bg-gradient-to-br from-primary/10 to-accent/10 max-w-4xl mx-auto">
+        <Card className="p-8 lg:p-12 bg-gradient-to-br from-primary/10 via-card to-accent/10 max-w-4xl mx-auto warp-element hover:shadow-2xl hover:shadow-primary/30 transition-all duration-500 border-2 border-primary/20">
           <h3 className="font-serif text-3xl font-bold mb-6 text-center text-foreground">
             The Future: Less Clock, More Life
           </h3>
@@ -104,7 +149,7 @@ export function AlternativeTimekeeping() {
               of years. Modern neuroscience confirms what they always knew: our bodies thrive on natural rhythms, not
               rigid schedules.
             </p>
-            <p className="text-lg font-semibold text-primary">
+            <p className="text-lg font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               The path forward isn't to reject all structure, but to choose structure that serves life rather than
               productivity. To use less Chronos and more Kairos. To decolonize time itself.
             </p>

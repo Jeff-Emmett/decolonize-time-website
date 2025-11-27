@@ -1,11 +1,40 @@
+"use client"
+
 import { Card } from "@/components/ui/card"
 import { Clock, Moon, Calendar } from "lucide-react"
+import { useEffect, useRef } from "react"
 
 export function TimeSystemsSection() {
+  const card1Ref = useRef<HTMLDivElement>(null)
+  const card2Ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-fade-in")
+          }
+        })
+      },
+      { threshold: 0.2 },
+    )
+
+    if (card1Ref.current) observer.observe(card1Ref.current)
+    if (card2Ref.current) observer.observe(card2Ref.current)
+
+    return () => observer.disconnect()
+  }, [])
+
   return (
-    <section id="systems" className="py-20 lg:py-32">
-      <div className="container px-4 lg:px-8">
-        <div className="max-w-3xl mx-auto text-center mb-16">
+    <section id="systems" className="py-20 lg:py-32 relative">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+        <div className="absolute top-20 left-10 w-32 h-32 border-2 border-primary rounded-full animate-[float-drift_15s_ease-in-out_infinite]" />
+        <div className="absolute bottom-20 right-10 w-24 h-24 border-2 border-accent animate-[float-drift_12s_ease-in-out_infinite]" />
+      </div>
+
+      <div className="container px-4 lg:px-8 relative z-10">
+        <div className="max-w-3xl mx-auto text-center mb-16 warp-element">
           <h2 className="font-serif text-4xl lg:text-5xl font-bold mb-6 text-foreground">
             The System Construct of Time
           </h2>
@@ -16,8 +45,10 @@ export function TimeSystemsSection() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-16">
-          {/* 12-60 System */}
-          <Card className="p-8 bg-card border-2 border-destructive/20">
+          <Card
+            ref={card1Ref}
+            className="p-8 bg-card border-2 border-destructive/20 warp-element hover:shadow-2xl hover:shadow-destructive/20 transition-all duration-300"
+          >
             <div className="flex items-start gap-4 mb-6">
               <div className="p-3 rounded-lg bg-destructive/10">
                 <Clock className="h-8 w-8 text-destructive" />
@@ -51,8 +82,10 @@ export function TimeSystemsSection() {
             </ul>
           </Card>
 
-          {/* 13-20 System */}
-          <Card className="p-8 bg-card border-2 border-primary/30">
+          <Card
+            ref={card2Ref}
+            className="p-8 bg-gradient-to-br from-card via-primary/5 to-card border-2 border-primary/30 warp-element hover:shadow-2xl hover:shadow-primary/30 transition-all duration-300"
+          >
             <div className="flex items-start gap-4 mb-6">
               <div className="p-3 rounded-lg bg-primary/10">
                 <Moon className="h-8 w-8 text-primary" />
@@ -87,7 +120,7 @@ export function TimeSystemsSection() {
           </Card>
         </div>
 
-        <Card className="p-8 lg:p-12 bg-secondary/20 max-w-4xl mx-auto">
+        <Card className="p-8 lg:p-12 bg-secondary/20 max-w-4xl mx-auto warp-element hover:shadow-xl transition-all duration-300">
           <div className="flex items-start gap-6">
             <div className="p-4 rounded-lg bg-accent/20 shrink-0">
               <Calendar className="h-10 w-10 text-accent" />

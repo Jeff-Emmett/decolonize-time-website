@@ -86,16 +86,20 @@ export function CalendarTranslator() {
   }
 
   return (
-    <section id="translator" className="py-20 lg:py-32 bg-muted/30">
-      <div className="container px-4 lg:px-8">
-        <div className="max-w-3xl mx-auto text-center mb-12">
+    <section id="translator" className="py-20 lg:py-32 bg-muted/30 relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-radial from-primary/30 via-accent/20 to-transparent rounded-full blur-3xl animate-[warp-pulse_4s_ease-in-out_infinite]" />
+      </div>
+
+      <div className="container px-4 lg:px-8 relative z-10">
+        <div className="max-w-3xl mx-auto text-center mb-12 warp-element">
           <h2 className="font-serif text-4xl lg:text-5xl font-bold mb-6 text-foreground">Calendar Translator</h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
             Convert any Gregorian calendar date to the 13-moon lunar calendar.
           </p>
         </div>
 
-        <Card className="max-w-2xl mx-auto p-8 lg:p-12">
+        <Card className="max-w-2xl mx-auto p-8 lg:p-12 warp-element hover:shadow-2xl hover:shadow-primary/30 transition-all duration-500 border-2 border-primary/20 bg-gradient-to-br from-card via-primary/5 to-card">
           <div className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="gregorian-date" className="text-base">
@@ -109,7 +113,7 @@ export function CalendarTranslator() {
                   onChange={(e) => setGregorianDate(e.target.value)}
                   className="flex-1"
                 />
-                <Button onClick={handleTodayClick} variant="outline">
+                <Button onClick={handleTodayClick} variant="outline" className="warp-element bg-transparent">
                   Today
                 </Button>
               </div>
@@ -117,7 +121,7 @@ export function CalendarTranslator() {
 
             <Button
               onClick={handleConvert}
-              className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+              className="w-full bg-gradient-to-r from-primary to-accent hover:shadow-lg hover:shadow-primary/50 transition-all warp-element"
               size="lg"
               disabled={!gregorianDate}
             >
@@ -127,13 +131,15 @@ export function CalendarTranslator() {
             {lunarDate && (
               <div className="pt-6 border-t border-border">
                 <div className="flex items-center justify-center gap-3 mb-6">
-                  <Moon className="h-8 w-8 text-primary" />
+                  <Moon className="h-8 w-8 text-primary animate-pulse" />
                   <h3 className="font-serif text-2xl font-bold text-foreground">13-Moon Date</h3>
                 </div>
 
                 {lunarDate.moonName === "Day Out of Time" ? (
-                  <div className="text-center space-y-4 p-8 bg-accent/10 rounded-lg">
-                    <p className="text-3xl font-bold text-accent">Day Out of Time</p>
+                  <div className="text-center space-y-4 p-8 bg-gradient-to-br from-accent/20 to-primary/20 rounded-lg border-2 border-accent/30 warp-element">
+                    <p className="text-3xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">
+                      Day Out of Time
+                    </p>
                     <p className="text-foreground/80">
                       A day for forgiveness, celebration, and preparation for the new year. This day (July 25) exists
                       outside the normal calendar cycle.
@@ -141,13 +147,13 @@ export function CalendarTranslator() {
                   </div>
                 ) : (
                   <div className="grid sm:grid-cols-2 gap-6">
-                    <div className="space-y-2 p-6 bg-primary/5 rounded-lg">
+                    <div className="space-y-2 p-6 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg warp-element hover:shadow-lg hover:shadow-primary/20 transition-all">
                       <p className="text-sm text-muted-foreground uppercase tracking-wide">Moon</p>
                       <p className="text-3xl font-bold text-primary">{lunarDate.moon}</p>
                       <p className="text-lg text-foreground font-serif">{lunarDate.moonName}</p>
                     </div>
 
-                    <div className="space-y-2 p-6 bg-secondary/20 rounded-lg">
+                    <div className="space-y-2 p-6 bg-gradient-to-br from-secondary/20 to-accent/10 rounded-lg warp-element hover:shadow-lg hover:shadow-accent/20 transition-all">
                       <p className="text-sm text-muted-foreground uppercase tracking-wide">Day</p>
                       <p className="text-3xl font-bold text-primary">{lunarDate.day}</p>
                       <p className="text-lg text-foreground font-serif">{lunarDate.dayOfWeek}</p>
