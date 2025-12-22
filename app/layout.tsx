@@ -18,21 +18,30 @@ export const metadata: Metadata = {
   keywords: "lunar calendar, 13 moons, indigenous time, Kairos, Chronos, natural time, decolonize, fractal time",
   generator: "v0.app",
   icons: {
-    icon: [
+    icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♾️</text></svg>",
+  },
+  metadataBase: new URL("https://decolonizeti.me"),
+  openGraph: {
+    title: "Decolonize Time - Reclaiming Natural Rhythms",
+    description: "Explore the system construct of time and reconnect with natural, lunar, and seasonal rhythms beyond the imposed 12-60 frequency.",
+    url: "https://decolonizeti.me",
+    siteName: "Decolonize Time",
+    images: [
       {
-        url: "/icon-light-32x32.png",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "/icon-dark-32x32.png",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/icon.svg",
-        type: "image/svg+xml",
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Decolonize Time - Moon phases over natural landscape",
       },
     ],
-    apple: "/apple-icon.png",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Decolonize Time - Reclaiming Natural Rhythms",
+    description: "Explore the system construct of time and reconnect with natural, lunar, and seasonal rhythms beyond the imposed 12-60 frequency.",
+    images: ["/og-image.jpg"],
   },
 }
 
