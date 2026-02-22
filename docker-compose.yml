@@ -7,6 +7,12 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.decolonize-time.rule=Host(`decolonizeti.me`) || Host(`www.decolonizeti.me`)"
       - "traefik.http.services.decolonize-time.loadbalancer.server.port=3000"
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
     networks:
       - traefik-public
 
