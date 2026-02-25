@@ -8,6 +8,7 @@ import { AlternativeTimekeeping } from "@/components/alternative-timekeeping"
 import { Footer } from "@/components/footer"
 import { SpaceTimeBackground } from "@/components/space-time-background"
 import { CursorWarp } from "@/components/cursor-warp"
+import { BoopDivider } from "@/components/boop-divider"
 
 export default function Page() {
   return (
@@ -20,6 +21,7 @@ export default function Page() {
         <Hero />
         <TimeSystemsSection />
         <KairosChronosSection />
+        <BoopDivider targetId="indigenous" />
         <IndigenousWisdomSection />
         <CalendarTranslator />
         <AlternativeTimekeeping />
