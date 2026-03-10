@@ -3,3 +3,4 @@ statuses:
   - To Do
   - In Progress
   - Done
+onStatusChange: 'python3 /home/jeffe/Github/dev-ops/scripts/backlog-notify.py'
