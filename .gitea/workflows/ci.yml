@@ -115,8 +115,15 @@ jobs:
       - name: Smoke test
         run: |
           set -eu
-          sleep 5
-          CODE=$(curl -sSL -o /dev/null -w '%{http_code}' --max-time 30 "https://decolonizeti.me/" || echo 000)
+          # Retry for up to ~90s. Right after a recreate, Traefik answers 404 until the new
+          # container is healthy and routed; one early probe rolled back healthy deploys
+          # (dev-ops TASK-454).
+          CODE=000
+          for i in $(seq 1 18); do
+            CODE=$(curl -sSL -o /dev/null -w '%{http_code}' --max-time 30 "https://decolonizeti.me/" || echo 000)
+            if [ "$CODE" -ge 200 ] && [ "$CODE" -lt 400 ]; then break; fi
+            sleep 5
+          done
           if [ "$CODE" -lt 200 ] || [ "$CODE" -ge 400 ]; then
             echo "Smoke test failed (HTTP $CODE) — rolling back to ${ROLLBACK_TAG:-<none>}"
             if [ -n "${ROLLBACK_TAG:-}" ]; then
